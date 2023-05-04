@@ -1,8 +1,15 @@
 import "./app.postcss";
-import App from "./App.svelte";
+import Filter from './lib/Filter.svelte'
+import Viewer from './lib/Viewer.svelte'
+import Gallery from './lib/Gallery.svelte'
 
-const app = new App({
-  target: document.getElementById("app"),
-});
 
-export default app;
+new Filter({
+  target: document.getElementById("filter")
+})
+new Viewer({
+  target: document.getElementById("viewer")
+})
+new Gallery({
+  target: document.getElementById("gallery")
+})

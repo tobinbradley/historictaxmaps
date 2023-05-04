@@ -4,10 +4,26 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Svelte + TS</title>
+    <title>Mecklenburg County Historic Tax Maps</title>
+
   </head>
   <body>
-    <div id="app"></div>
+    <main class="flex flex-col h-screen">
+      <div class="text-center bg-gradient-to-b from-indigo-950 to-indigo-800">
+        <h1 class="py-2 px-4 text-4xl font-bold text-white">
+          Historic Tax Maps
+        </h1>
+        <div id="filter" class="px-4 pb-1"></div>
+      </div>
+      <div class="grow flex relative">
+        <div
+          id="gallery"
+          class="w-48 absolute top-0 bottom-0 left-0 p-1 overflow-y-scroll hidden lg:block"
+        ></div>
+        <div id="viewer" class="grow relative lg:ml-48 text-center"></div>
+      </div>
+    </main>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

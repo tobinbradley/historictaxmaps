@@ -1,3 +1,15 @@
+# TODO
+
+* IMG's to server
+* Load DB table
+* Years from fetch
+* Books from fetch
+* Records from fetch
+* Selected img in hash
+* Styling (header, filter area, etc.)
+  * Maybe engineering blue with tax map background and white text
+* PWA/workbox
+
 # Svelte + TS + Vite
 
 This template should help get you started developing with Svelte and TypeScript in Vite.
