@@ -1,59 +1,53 @@
 # TODO
 
-* IMG's to server
-* Load DB table
-* Years from fetch
-* Books from fetch
-* Records from fetch
 * Selected img in hash
-* Styling (header, filter area, etc.)
+* Styling (header, filter area, favicon, header stuff, etc.)
   * Maybe engineering blue with tax map background and white text
 * PWA/workbox
 
-# Svelte + TS + Vite
+```bash
+#! /bin/bash
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+IMGSOURCEPATH="/mnt/e/HistoricTaxMaps1970_1998"
+IMGDESTPATH="/mnt/c/workspace/code/historictaxmaps/public/taxmaps"
 
-## Recommended IDE Setup
+for f in $(find $IMGSOURCEPATH -name '*.tif')
+  do
+    if [ ! -f "$IMGDESTPATH/$f" ]
+    then
+      echo "Converting $f"
+      mogrify -quality 1 -colors 256 -resize 50% -format webp -path "$IMGDESTPATH" "$f"
+    fi
+done
+```
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+```javascript
+require("dotenv").config()
+const fs = require("fs")
+const pgp = require("pg-promise")({
+  capSQL: true
+})
+const db = pgp(process.env.POSTGRES_CONNECTION)
 
-## Need an official Svelte framework?
+const folder = "public/taxmaps"
+const cs = new pgp.helpers.ColumnSet(["year", "book", "page", "file"], { table: "historic_tax_maps" })
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+// data input values:
+const values = []
+fs.readdirSync(folder).forEach((file) => {
+  const year = file.substring(0, 4)
+  const book = file.substring(5, 8)
+  let page = file.substring(8, 10)
+  if (file.toUpperCase().indexOf("INDEX") !== -1) {
+    page = "index"
+  }
+  values.push({'year': year, 'book': book, 'page': page, 'file': file})
+})
 
-## Technical considerations
+async function insert() {
+  const query = pgp.helpers.insert(values, cs)
+  await db.none(query)
+}
 
-**Why use this over SvelteKit?**
-
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
-
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
-
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+insert()
 ```
