@@ -59,5 +59,7 @@
 </style>
 
 <div class="inline-block absolute top-0 right-0 text-white z-50 bg-blue-700 px-4 py-1 rounded-bl border-b-4 border-l-4 border-white font-bold text-lg">{$imgTitle}</div>
+
 <div class="map h-full w-full z-0" bind:this={imgViewer} />
+
 <a class="absolute bottom-3 left-3 px-4 py-3 bg-pink-500 text-white z-50 rounded shadow hover:bg-pink-600 transition-all duration-300" href={$imgBaseUrl + $imgUrl} target="_blank" rel="noreferrer">Download</a>
