@@ -2,26 +2,57 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Historic tax maps in Mecklenburg County, North Carolina."
+    />
+    <meta name="author" content="Tobin Bradley" />
     <title>Mecklenburg County Historic Tax Maps</title>
 
+    <!-- icon and theme stuff -->
+    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <!-- 32×32 -->
+    <link rel="icon" href="img/logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+    <!-- 180×180 -->
+    <meta name="theme-color" content="#2A4365" />
+    <link rel="manifest" href="manifest.json" />
   </head>
-  <body class="flex flex-col h-screen overflow-hidden">
-      <header>
-        <h1 class="py-4 px-4 text-5xl font-bold text-white">
-          Historic Tax Maps
-        </h1>
-      </header>
-      <main class="grow flex relative bg-gray-300 overflow-hidden">
-        <aside class="w-54 lg:w-64 p-2 bg-yellow-300 flex flex-col h-full">
-          <section id="filter" class="border-2 p-2 my-2 flex justify-between gap-x-2">
+  <body class="flex flex-col h-screen overflow- bg-neutral-700">
+    <header class="font-bold">
+      <div class="pl-4 pt-1 text-white">
+        <h1 class="text-5xl">Historic Tax Maps</h1>
+        <h2 class="pl-1 relative text-lg text-neutral-100 text-yellow-300" style="top: -8px">
+          Mecklenburg County GIS
+        </h2>
+      </div>
+    </header>
+    <main class="grow flex flex-col lg:flex-row relative overflow-hidden">
+      <aside
+        id="gallery"
+        class="w-54 lg:w-64 px-2 pb-2 flex flex-col "
+      ></aside>
+      <section id="viewer" class="grow h-full relative mx-2 rounded-md lg:mx-0 lg:rounded-none"></section>
+    </main>
 
-          </section>
-          <section id="gallery" class="grow bg-slate-300 overflow-auto overflow-y-scroll"></section>
-        </aside>
-        <section id="viewer" class="grow relative text-center"></section>
-      </main>
+    <!-- service worker dialog -->
+    <dialog
+      id="sw-dialog"
+      class="bg-yellow-600 text-white px-3 py-2 rounded-r-md border-l-2 border-white shadow-lg"
+    >
+      <div class="flex place-items-center">
+        <div class="flex-1 pr-6 text-lg">Historic Tax Maps has been updated!</div>
+        <div>
+          <button
+            class="px-2 py-1 bg-white rounded-md text-neutral-900 hover:bg-yellow-700 hover:text-white transition-colors duration-300"
+            onclick="window.location.reload()"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+    </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

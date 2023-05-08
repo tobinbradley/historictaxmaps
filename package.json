@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "workbox generateSW workbox-config.cjs",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
@@ -21,7 +22,8 @@
     "tailwindcss": "^3.3.2",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.4"
+    "vite": "^4.3.4",
+    "workbox-cli": "^6.5.4"
   },
   "dependencies": {
     "leaflet": "^1.9.3"

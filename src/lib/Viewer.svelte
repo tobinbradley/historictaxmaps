@@ -12,7 +12,6 @@
 		loadImg()
 	}
 
-
   onMount(async () => {
     const L = await import("leaflet")
 
@@ -30,7 +29,6 @@
 
     map.attributionControl.setPrefix('<a href="https://leafletjs.com/" target="_blank">Leaflet</a>')
     map.attributionControl.addAttribution('<a href="https://gis.mecknc.gov" target="_blank">Mecklenburg County GIS</a>');
-
   })
 
 
@@ -54,12 +52,48 @@
 
 <style>
   .map {
-    @apply bg-gray-300;
+    box-shadow: inset 8px 8px 18px rgba(0,0,0,0.5);
+    background-color: #e5e5e5;
+    background-image:  linear-gradient(#404040 1px, transparent 1px), linear-gradient(to right, #404040 1px, #e5e5e5 1px);
+    background-size: 20px 20px;
+  }
+  #imgtitle {
+    box-shadow: 8px 8px 18px rgba(0,0,0,0.5);
+  }
+  .icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
   }
 </style>
 
-<div class="inline-block absolute top-0 right-0 text-white z-50 bg-blue-700 px-4 py-1 rounded-bl border-b-4 border-l-4 border-white font-bold text-lg">{$imgTitle}</div>
+<!-- info and download button -->
+<div id="imgtitle"
+  class="inline-block absolute top-0 right-0 rounded-bl-md text-neutral-100 z-50 bg-neutral-700 px-2 py-1 text-lg"
+  >
+  <div class="flex justify-center items-center">
+    <div class="hidden lg:block mr-2">
+      {$imgTitle}
+    </div>
+    <div class="mb-1">
+      <a title="Download Tax Map"
+        class="px-2 pb-1 border border-neutral-500 hover:border-neutral-100 duration-300 trasition-colors ease-in-out rounded-md"
+        href={$imgBaseUrl + $imgUrl}
+        target="_blank" rel="noreferrer"
+      >
+        <svg class="icon icon-folder-download"><use xlink:href="#icon-folder-download"></use></svg>
+      </a>
+    </div>
+  </div>
+</div>
 
+<!-- download svg -->
+<symbol id="icon-folder-download" viewBox="0 0 32 32">
+<path d="M18 8l-4-4h-14v26h32v-22h-14zM16 27l-7-7h5v-8h4v8h5l-7 7z"></path>
+</symbol>
+
+<!-- leaflet map -->
 <div class="map h-full w-full z-0" bind:this={imgViewer} />
-
-<a class="absolute bottom-3 left-3 px-4 py-3 bg-pink-500 text-white z-50 rounded shadow hover:bg-pink-600 transition-all duration-300" href={$imgBaseUrl + $imgUrl} target="_blank" rel="noreferrer">Download</a>
