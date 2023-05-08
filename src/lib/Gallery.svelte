@@ -65,7 +65,7 @@
   </div>
 
   <!-- show drop down for small screens -->
-  <div class="mt-3 mx-4 lg:hidden">
+  <div class="my-6 mx-4 lg:hidden">
     <select bind:value={$imgUrl} aria-label="Tax Maps" class="w-full text-center text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-1 py-2">
       {#each taxmaps as record}
         <option value={record.file}>{record.year} {record.book}-{record.page}</option>

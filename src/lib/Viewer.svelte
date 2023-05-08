@@ -52,6 +52,7 @@
 
 <style>
   .map {
+    /* @apply absolute top-0 bottom-0 left-0 right-0; */
     box-shadow: inset 8px 8px 18px rgba(0,0,0,0.5);
     background-color: #e5e5e5;
     background-image:  linear-gradient(#404040 1px, transparent 1px), linear-gradient(to right, #404040 1px, #e5e5e5 1px);
@@ -96,4 +97,4 @@
 </symbol>
 
 <!-- leaflet map -->
-<div class="map h-full w-full z-0" bind:this={imgViewer} />
+<div class="map w-full h-full z-0" bind:this={imgViewer} />
