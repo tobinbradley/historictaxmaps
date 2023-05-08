@@ -80,7 +80,7 @@
     </div>
     <div class="mb-1">
       <a title="Download Tax Map"
-        class="px-2 pb-1 border border-neutral-500 hover:border-neutral-100 duration-300 trasition-colors ease-in-out rounded-md"
+        class="px-2 pb-1 border border-neutral-500 hover:border-yellow-300 hover:text-yellow-300 duration-300 trasition-colors ease-in-out rounded-md"
         href={$imgBaseUrl + $imgUrl}
         target="_blank" rel="noreferrer"
       >
