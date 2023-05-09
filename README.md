@@ -1,9 +1,10 @@
-# TODO
+# Historic Tax Maps
 
-* Selected img in hash
-* Styling (header, filter area, favicon, header stuff, etc.)
-  * Maybe engineering blue with tax map background and white text
-* PWA/workbox
+A simple image viewer made with Leaflet, Svelte and Tailwind.
+
+## Some Handy Scripts
+
+Here's a basic script for using image magic to get your images how you need them.
 
 ```bash
 #! /bin/bash
@@ -20,6 +21,8 @@ for f in $(find $IMGSOURCEPATH -name '*.tif')
     fi
 done
 ```
+
+The index table is in Postgres. I loaded them from the file names using this script.
 
 ```javascript
 require("dotenv").config()
