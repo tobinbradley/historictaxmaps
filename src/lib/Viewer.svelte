@@ -2,13 +2,13 @@
   import { onMount } from "svelte"
   import "leaflet/dist/leaflet.css"
   import L from "leaflet"
-  import { imgUrl, imgBaseUrl, imgTitle } from "../store"
+  import { selected, imgBaseUrl } from "../store"
 
   let imgViewer
   let imgLayer
   let map
 
-  $: if ($imgUrl && map) {
+  $: if ($selected && map) {
 		loadImg()
 	}
 
@@ -37,7 +37,7 @@
 
     // get image dimensions
     const img = new Image()
-    img.src = $imgBaseUrl + $imgUrl
+    img.src = $imgBaseUrl + $selected.file
     await img.decode()
 
     // calculate the edges of the image, in coordinate space
@@ -46,7 +46,7 @@
     var bounds = new L.LatLngBounds(southWest, northEast)
     map.fitBounds(bounds)
 
-    imgLayer = L.imageOverlay($imgBaseUrl + $imgUrl, bounds).addTo(map)
+    imgLayer = L.imageOverlay($imgBaseUrl + $selected.file, bounds).addTo(map)
   }
 </script>
 
@@ -77,12 +77,12 @@
   >
   <div class="flex justify-center items-center">
     <div class="hidden lg:block mr-2">
-      {$imgTitle}
+      {$selected.year} {$selected.book}-{$selected.page}
     </div>
     <div class="mb-1">
       <a title="Download Tax Map"
         class="px-2 pb-1 border border-neutral-500 hover:border-yellow-300 hover:text-yellow-300 duration-300 trasition-colors ease-in-out rounded-md"
-        href={$imgBaseUrl + $imgUrl}
+        href={$imgBaseUrl + $selected.file}
         target="_blank" rel="noreferrer"
       >
         <svg class="icon icon-folder-download"><use xlink:href="#icon-folder-download"></use></svg>
