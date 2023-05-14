@@ -22,18 +22,17 @@
   <body class="flex flex-col h-screen overflow-hidden bg-neutral-700">
     <header class="font-bold flex flex-col justify-center pt-3 pb-4">
       <div class="pl-4 text-white">
-        <a href="./">
-          <h1 class="text-5xl leading-none">Historic Tax Maps</h1>
+          <h1 class="text-5xl leading-none inline-block">
+            <a href="./">Historic Tax Maps</a></h1>
           <h2 class="pl-1 relative text-lg text-yellow-300 leading-none">
             Mecklenburg County GIS
           </h2>
-        </a>
       </div>
     </header>
-    <main class="grow flex flex-col lg:flex-row relative overflow-hidden">
+    <main class="grow flex flex-col md:flex-row relative overflow-hidden">
       <aside
         id="gallery"
-        class="w-54 lg:w-64 px-2 pb-2 flex flex-col overflow-hidden"
+        class="w-54 md:w-64 px-2 pb-2 flex flex-col"
       ></aside>
       <section id="viewer" class="grow relative h-full overflow-hidden mx-2 my-2 lg:my-0 rounded-md lg:mx-0 lg:rounded-none"></section>
     </main>
