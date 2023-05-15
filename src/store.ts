@@ -31,7 +31,6 @@ function readHash() {
           error
         )
       })
-    book.set(arg.substring(5, 8))
   }
 }
 readHash()

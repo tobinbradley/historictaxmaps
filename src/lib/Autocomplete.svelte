@@ -59,7 +59,7 @@ function filterResults () {
     const text = typeof item !== 'string' ? item.value : item
     return {
       value: item.value || item,
-      label: search.trim() === '' ? text : text.replace(RegExp(regExpEscape(search.trim()), 'i'), "<span class='text-gray-700 font-bold'>$&</span>")
+      label: search.trim() === '' ? text : text.replace(RegExp(regExpEscape(search.trim()), 'i'), "<span class='text-gray-700'>$&</span>")
     }
   });
 }
@@ -99,11 +99,11 @@ function close (index = -1) {
 .autocomplete-results {
   top: 40px;
   max-height: 100vh;
-  @apply rounded-md bg-neutral-50;
+  @apply rounded-md bg-neutral-50 text-sm;
 }
 
 .autocomplete-nomatch {
-  @apply text-gray-700 font-semibold py-1 px-2;
+  @apply text-neutral-700 text-sm py-1 px-2;
 }
 
 .autocomplete-result.is-active,
@@ -116,7 +116,7 @@ function close (index = -1) {
 
 <div class="relative mt-4 mx-2">
   <input
-    class="w-full text-sm rounded-lg block px-1 py-2 bg-neutral-50 text-left"
+    class="w-full text-sm rounded-lg block px-1 py-2 bg-neutral-50 text-left outline-none border border-transparent focus:border-yellow-500 focus:ring-transparent"
     type="text"
     aria-label="find Tax Map via address"
     onfocus="this.select()"

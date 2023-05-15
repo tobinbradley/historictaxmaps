@@ -1,19 +1,15 @@
 <script lang="ts">
-  import { selected, imgBaseUrl } from "../store"
+  import { book, selected, imgBaseUrl } from "../store"
   import Search from "./Search.svelte"
 
-  let taxmaps = []
   let books = []
   let records = []
-  let book = $selected.book
   let page = $selected.page
-  // let year = '*'
+  let selectedMenu
 
-  $: if ($selected) {
-    //page = $selected.page
-    //book = $selected.book
+  book.subscribe((val) => {
     fetchRecords()
-  }
+  })
 
   // fetch books
   fetch(
@@ -30,46 +26,41 @@
       )
     })
 
-  function fetchRecords(bk = $selected.book, updateSelected = false) {
-      fetch(
-        `https://api.mcmap.org/v1/query/historic_tax_maps?columns=year,book,page,file&filter=book='${bk}'&sort=year%2C%20book%2C%20CASE%20WHEN%20page%20~%20'%5E%5Ba-zA-Z%5D'%20THEN%201%20WHEN%20page%20~%20'%5E%5B0-9%5D'%20THEN%202%20END`
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          records = json
-          if (json.length > 0 && updateSelected) {
-            $selected = json[0]
-            page = json[0].page
-          }
-        })
-        .catch((error) => {
-          console.error(
-            "There has been a problem with your fetch operation:",
-            error
-          )
-        })
+  function fetchRecords() {
+    fetch(
+      `https://api.mcmap.org/v1/query/historic_tax_maps?columns=year,book,page,file&filter=book='${$book}'&sort=book%2C%20CASE%20WHEN%20page%20~%20'%5E%5Ba-zA-Z%5D'%20THEN%201%20WHEN%20page%20~%20'%5E%5B0-9%5D'%20THEN%202%20END,year`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        records = json
+        if (json.length > 0) {
+          page = json[0].page
+        }
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        )
+      })
   }
-
-  function changeBook() {
-    fetchRecords(book, true)
-  }
-
-  function changePage() {
-    $selected = records.filter(el => el.page === page)[0]
-  }
-
 </script>
+
+<style>
+  select {
+    @apply outline-none border border-transparent focus:border-yellow-500 focus:ring-transparent;
+  }
+</style>
 
 <section class="bg-neutral-200 rounded p-2 mb-2">
   <!-- filters -->
-  <div class="flex justify-around gap-x-2">
+  <div class="flex justify-center md:justify-evenly gap-x-2 md:gap-x-0">
     <div>
       <label for="book" class="block text-center text-sm font-bold">Book</label>
       <select
-        bind:value={book}
-        on:change={changeBook}
+        bind:value={$book}
         id="book"
-        class=" text-sm rounded-lg bg-neutral-50 block px-1 py-2"
+        class="text-sm rounded-lg bg-neutral-50 block px-1 py-2"
       >
         {#each books as book}
           <option>{book}</option>
@@ -81,7 +72,6 @@
       <select
         bind:value={page}
         id="page"
-        on:change={changePage}
         class="text-sm rounded-lg bg-neutral-50 block px-1 py-2"
       >
         {#each [...new Set(records.map((el) => el.page))].sort() as pg}
@@ -97,14 +87,13 @@
   <!-- show drop down for small screens -->
   <div class="my-6 mx-2 md:hidden">
     <select
-      bind:value={$selected.file}
+      bind:value={selectedMenu}
+      on:change="{() => $selected = selectedMenu}"
       aria-label="Tax Maps"
       class="w-full text-center text-sm rounded-lg bg-neutral-50 block px-1 py-2"
     >
-      {#each records.filter((el) => el.book === $selected.book && el.page === $selected.page) as record}
-        <option value={record.file}
-          >{record.year} {record.book}-{record.page}</option
-        >
+      {#each records.filter((el) => el.book === $book && el.page === page) as record}
+        <option value={record}>{record.year} {record.book}-{record.page}</option>
       {/each}
     </select>
   </div>
@@ -112,7 +101,7 @@
 
 <!-- image gallery area for larger screens -->
 <section class="hidden md:block grow rounded overflow-auto overflow-y-scroll">
-  {#each records.filter((el) => el.book === $selected.book && el.page === $selected.page) as record}
+  {#each records.filter((el) => el.book === $book && el.page === page) as record}
     <div
       class="min-h-10 rounded mb-2 mr-2 text-center hover:shadow cursor-pointer transition-all ease-in-out duration-300 {record.file ===
       $selected.file

@@ -54,10 +54,3 @@ async function insert() {
 
 insert()
 ```
-
-
-## TODO
-
-* Look for store change strangeness
-* get rid of store book
-* only fetch if selected book not equal to previous book

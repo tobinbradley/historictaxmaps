@@ -59,4 +59,4 @@ async function handleQuery(event) {
 </script>
 
 
-<AutoComplete placeholder="Try '2145 Suttle' or 'Jetton'" minChar={4} nomatch={nomatch} {items} on:hit={handleHit} on:query={handleQuery} value={address} spinner={spinner} />
+<AutoComplete placeholder="Address" minChar={4} nomatch={nomatch} {items} on:hit={handleHit} on:query={handleQuery} value={address} spinner={spinner} />

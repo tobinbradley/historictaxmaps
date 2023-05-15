@@ -81,9 +81,10 @@
     </div>
     <div class="mb-1">
       <a title="Download Tax Map"
+        download={$selected.year + ' ' + $selected.book + '-' + $selected.page + '.webp'}
         class="px-2 pb-1 border border-neutral-500 hover:border-yellow-300 hover:text-yellow-300 duration-300 trasition-colors ease-in-out rounded-md"
         href={$imgBaseUrl + $selected.file}
-        target="_blank" rel="noreferrer"
+        target="_blank"
       >
         <svg class="icon icon-folder-download"><use xlink:href="#icon-folder-download"></use></svg>
       </a>
