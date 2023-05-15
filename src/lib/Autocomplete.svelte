@@ -116,7 +116,7 @@ function close (index = -1) {
 
 <div class="relative mt-4 mx-2">
   <input
-    class="w-full text-sm rounded-lg block px-1 py-2 bg-neutral-50 text-left outline-none border border-transparent focus:border-yellow-500 focus:ring-transparent"
+    class="w-full block"
     type="text"
     aria-label="find Tax Map via address"
     onfocus="this.select()"

@@ -46,12 +46,6 @@
   }
 </script>
 
-<style>
-  select {
-    @apply outline-none border border-transparent focus:border-yellow-500 focus:ring-transparent;
-  }
-</style>
-
 <section class="bg-neutral-200 rounded p-2 mb-2">
   <!-- filters -->
   <div class="flex justify-center md:justify-evenly gap-x-2 md:gap-x-0">
@@ -60,7 +54,6 @@
       <select
         bind:value={$book}
         id="book"
-        class="text-sm rounded-lg bg-neutral-50 block px-1 py-2"
       >
         {#each books as book}
           <option>{book}</option>
@@ -72,7 +65,6 @@
       <select
         bind:value={page}
         id="page"
-        class="text-sm rounded-lg bg-neutral-50 block px-1 py-2"
       >
         {#each [...new Set(records.map((el) => el.page))].sort() as pg}
           <option>{pg}</option>
@@ -90,7 +82,7 @@
       bind:value={selectedMenu}
       on:change="{() => $selected = selectedMenu}"
       aria-label="Tax Maps"
-      class="w-full text-center text-sm rounded-lg bg-neutral-50 block px-1 py-2"
+      class="w-full block"
     >
       {#each records.filter((el) => el.book === $book && el.page === page) as record}
         <option value={record}>{record.year} {record.book}-{record.page}</option>
@@ -103,10 +95,10 @@
 <section class="hidden md:block grow rounded overflow-auto overflow-y-scroll">
   {#each records.filter((el) => el.book === $book && el.page === page) as record}
     <div
-      class="min-h-10 rounded mb-2 mr-2 text-center hover:shadow cursor-pointer transition-all ease-in-out duration-300 {record.file ===
+      class="min-h-10 rounded mb-2 mr-2 border-4 border-transparent text-center hover:shadow cursor-pointer transition-all ease-in-out duration-300 {record.file ===
       $selected.file
-        ? 'bg-yellow-300'
-        : 'bg-neutral-100'} hover:bg-yellow-100"
+        ? 'bg-pink-500 text-white'
+        : 'bg-neutral-100'} hover:border-yellow-500"
       on:click={() => ($selected = record)}
       on:keypress={() => ($selected = record)}
       data-file={record.file}

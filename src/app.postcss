@@ -5,11 +5,14 @@
 @tailwind base;
 
 body {
-  font-family: 'Open Sans', ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT', 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif;
+  font-family: 'Open Sans',i-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT', 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif;
   background: url('./assets/header-background.svg');
   @apply text-neutral-900;
 }
 
+select, input {
+  @apply text-sm rounded-md px-1 py-2 bg-neutral-50 text-left outline-none border border-transparent focus:border-pink-500 focus:ring-transparent;
+}
 
 @tailwind components;
 
