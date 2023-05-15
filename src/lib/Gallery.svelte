@@ -71,24 +71,25 @@
         {/each}
       </select>
     </div>
+    <!-- show drop down for small screens -->
+    <div class="md:hidden">
+      <label for="mapselector" class="block text-center text-sm font-bold">Maps</label>
+      <select
+        bind:value={selectedMenu}
+        on:change="{() => $selected = selectedMenu}"
+        id="mapselector"
+      >
+        {#each records.filter((el) => el.book === $book && el.page === page) as record}
+          <option value={record}>{record.year} {record.book}-{record.page}</option>
+        {/each}
+      </select>
+    </div>
   </div>
 
   <!-- search -->
   <Search />
 
-  <!-- show drop down for small screens -->
-  <div class="my-6 mx-2 md:hidden">
-    <select
-      bind:value={selectedMenu}
-      on:change="{() => $selected = selectedMenu}"
-      aria-label="Tax Maps"
-      class="w-full block"
-    >
-      {#each records.filter((el) => el.book === $book && el.page === page) as record}
-        <option value={record}>{record.year} {record.book}-{record.page}</option>
-      {/each}
-    </select>
-  </div>
+
 </section>
 
 <!-- image gallery area for larger screens -->
