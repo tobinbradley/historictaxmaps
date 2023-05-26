@@ -5,7 +5,6 @@
   import { selected, imgBaseUrl } from "../store"
 
   let imgViewer
-  let imgLayer
   let map
 
   $: if ($selected && map) {
@@ -33,7 +32,9 @@
 
 
   async function loadImg() {
-    if (imgLayer) imgLayer.remove()
+    map.eachLayer(layer => {
+      map.removeLayer(layer);
+    })
 
     // get image dimensions
     const img = new Image()
@@ -46,7 +47,7 @@
     var bounds = new L.LatLngBounds(southWest, northEast)
     map.fitBounds(bounds)
 
-    imgLayer = L.imageOverlay($imgBaseUrl + $selected.file, bounds).addTo(map)
+    L.imageOverlay($imgBaseUrl + $selected.file, bounds).addTo(map)
   }
 </script>
 
