@@ -1,15 +1,24 @@
 <script lang="ts">
-  import { book, selected, imgBaseUrl } from "../store"
+  import { selected } from "../store"
   import Search from "./Search.svelte"
 
+  let book
+  let page
   let books = []
   let records = []
-  let page = $selected.page
   let selectedMenu
 
-  book.subscribe((val) => {
-    fetchRecords()
+  selected.subscribe((val) => {
+    page = val.page
+    if(book !== val.book) {
+      book = val.book
+      fetchRecords()
+    }
   })
+
+  function bookChange() {
+    fetchRecords()
+  }
 
   // fetch books
   fetch(
@@ -28,14 +37,13 @@
 
   function fetchRecords() {
     fetch(
-      `https://api.mcmap.org/v1/query/historic_tax_maps?columns=year,book,page,file&filter=book='${$book}'&sort=book%2C%20CASE%20WHEN%20page%20~%20'%5E%5Ba-zA-Z%5D'%20THEN%201%20WHEN%20page%20~%20'%5E%5B0-9%5D'%20THEN%202%20END,year`
+      `https://api.mcmap.org/v1/query/historic_tax_maps?columns=year,book,page,file&filter=book='${book}'&sort=book%2C%20CASE%20WHEN%20page%20~%20'%5E%5Ba-zA-Z%5D'%20THEN%201%20WHEN%20page%20~%20'%5E%5B0-9%5D'%20THEN%202%20END,year&limit=2000`
     )
       .then((response) => response.json())
       .then((json) => {
         records = json
-        if (json.length > 0) {
-          page = json[0].page
-        }
+        const pages = json.map(el => el.page)
+        if (!pages.includes(page)) page = pages[0]
       })
       .catch((error) => {
         console.error(
@@ -52,8 +60,9 @@
     <div>
       <label for="book" class="block text-center text-sm font-bold">Book</label>
       <select
-        bind:value={$book}
+        bind:value={book}
         id="book"
+        on:change={bookChange}
       >
         {#each books as book}
           <option>{book}</option>
@@ -75,11 +84,10 @@
     <div class="md:hidden">
       <label for="mapselector" class="block text-center text-sm font-bold">Maps</label>
       <select
-        bind:value={selectedMenu}
-        on:change="{() => $selected = selectedMenu}"
+        bind:value={$selected}
         id="mapselector"
       >
-        {#each records.filter((el) => el.book === $book && el.page === page) as record}
+        {#each records.filter((el) => el.book === book && el.page === page) as record}
           <option value={record}>{record.year} {record.book}-{record.page}</option>
         {/each}
       </select>
@@ -93,24 +101,17 @@
 </section>
 
 <!-- image gallery area for larger screens -->
-<section class="hidden md:block grow rounded overflow-auto overflow-y-scroll">
-  {#each records.filter((el) => el.book === $book && el.page === page) as record}
-    <div
-      class="min-h-10 rounded mb-2 mr-2 border-4 border-transparent text-center hover:shadow cursor-pointer transition-all ease-in-out duration-300 {record.file ===
+<section class="hidden bg-neutral-200 px-2 py-2 md:block grow rounded overflow-auto overflow-y-scroll">
+  {#each records.filter((el) => el.book === book && el.page === page) as record}
+    <button
+      class="py-1 rounded mb-2 w-full block border-2 drop-shadow border-transparent text-center hover:shadow cursor-pointer transition-all ease-in-out duration-300 {record.file ===
       $selected.file
         ? 'bg-pink-500 text-white'
-        : 'bg-neutral-100'} hover:border-yellow-500"
+        : 'bg-neutral-100'} hover:border-pink-500"
       on:click={() => ($selected = record)}
-      on:keypress={() => ($selected = record)}
       data-file={record.file}
     >
-      <img
-        class="block rounded px-1 pt-1"
-        src={$imgBaseUrl + record.file}
-        alt={record.book}
-        loading="lazy"
-      />
       <span class="text-sm">{record.year} {record.book}-{record.page}</span>
-    </div>
+      </button>
   {/each}
 </section>
