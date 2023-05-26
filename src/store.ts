@@ -2,13 +2,12 @@ import { writable, readable } from 'svelte/store'
 
 export const selected = writable({
   book: '001',
-  page: '01',
+  page: 'index',
   year: 1970,
   file: '1970-001Index.webp'
 })
 
 export const imgBaseUrl = readable('//maps.co.mecklenburg.nc.us/taxmaps/')
-export const book = writable('001')
 
 // Handle nav events
 let browserNav = false
