@@ -22,7 +22,7 @@
 
   // fetch books
   fetch(
-    "https://api.mcmap.org/v1/query/historic_tax_maps?columns=distinct(book)%20as%20book&sort=book"
+    "https://api.mcmap.org/v1/query/historic_tax_maps?columns=distinct(book)%20as%20book&sort=book&limit=1000"
   )
     .then((response) => response.json())
     .then((json) => {
