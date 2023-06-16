@@ -7,7 +7,7 @@ export const selected = writable({
   file: '1970-001Index.webp'
 })
 
-export const imgBaseUrl = readable('//maps.co.mecklenburg.nc.us/taxmaps/')
+export const imgBaseUrl = readable(import.meta.env.VITE_IMAGE_BASE)
 
 // Handle nav events
 let browserNav = false
